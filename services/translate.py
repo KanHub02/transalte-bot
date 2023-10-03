@@ -13,12 +13,12 @@ class EdenAITranslator:
     def __init__(self, config: EdenAIConfig):
         self.config = config
 
-    def translate(self, language, text):
+    def translate(self, language, text, source_language):
         payload = {
             "show_original_response": False,
             "fallback_providers": "",
             "providers": "google,amazon",
-            "source_language": "en",
+            "source_language": source_language,
             "target_language": language,
             "text": text,
         }
@@ -26,16 +26,20 @@ class EdenAITranslator:
             self.config.base_url, json=payload, headers=self.config.headers
         )
         result = json.loads(response.text)
-        return result["amazon"].get("text")
+        if response.status_code == 200:
+            return result["amazon"].get("text")
+        else:
+            return "Что-то пошло не так ИДИ НАХУЙ"
     
-    def detect_language(self) -> str:
+    def detect_language(self, message: str) -> str:
         url ="https://api.edenai.run/v2/translation/language_detection"
-        payload={"show_original_response": False,"fallback_providers": "","providers": "google,amazon", 'text': "this is a test"}
+        payload={"show_original_response": False,"fallback_providers": "","providers": "google,amazon", 'text': message}
         response = requests.post(
             url=url, json=payload, headers=self.config.headers
         )
         result = json.loads(response.text)
-        return result['google']['items']
+        display_name = result['amazon']['items'][0].get("display_name")
+        return result['amazon']['items'][0].get("language"), display_name
         
 
 

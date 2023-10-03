@@ -44,9 +44,11 @@ async def on_text(message: types.Message):
     if translation_mode:
         config = EdenAIConfig(EDEN_API_KEY)
         translator = EdenAITranslator(config)
+        source_language, display_name = translator.detect_language(message.text)
         text_to_translate = message.text
-        translated_text = translator.translate(language, text_to_translate)
+        translated_text = translator.translate(language, text_to_translate, source_language)
         await message.reply("Перевод: " + str(translated_text))
+        await message.reply("Язык: " + str(display_name))
     else:
         await message.reply("Перевод не включен. Включите режим перевода.")
 
