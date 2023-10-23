@@ -6,3 +6,7 @@ venv/
 .env
 *.pdf
 media/images/*
+*.png
+*.jpg
+*test*.*
+test.py

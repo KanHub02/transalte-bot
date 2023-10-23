@@ -5,7 +5,7 @@ from aiogram import Bot, Dispatcher, types
 
 from config import dp, bot, EDEN_API_KEY
 from statics import START_BOLD, INFO_TEXT
-from services.translate import EdenAITranslator, EdenAIConfig
+from services.translator.translate import EdenAITranslator, EdenAIConfig
 from keyboards.translate import translation_mode_keyboard
 
 
