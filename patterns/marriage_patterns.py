@@ -38,7 +38,6 @@ def extract_information(text: str) -> dict:
     }
     return information
 
-# Пример использования
 text = """ваш текст с данными о браке"""
 
 info = extract_information(text)
